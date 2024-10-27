@@ -1,95 +1,95 @@
+using System;
+using Mirror;
 using System.Collections;
-using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CarController : MonoBehaviour
+public class CarController : NetworkBehaviour
 {
     [SerializeField] private WheelCollider _colliderFL;
     [SerializeField] private WheelCollider _colliderFR;
     [SerializeField] private WheelCollider _colliderBL;
     [SerializeField] private WheelCollider _colliderBR;
-    [SerializeField] private float _force;        // Сила тяги для движения вперед и назад
-    [SerializeField] private float _maxSteerAngle; // Максимальный угол поворота колёс
-    [SerializeField] private float _accelerationSpeed = 100f; // Скорость ускорения машины
-    [SerializeField] private float _decelerationSpeed = 200f; // Скорость торможения
-    [SerializeField] private float _brakeForce = 5000f; // Сила торможения
-    [SerializeField] private float _initialBrakeForce = 20000000f; // Сила торможения при возрождении
-    [SerializeField] private Transform _startPoint; // Точка старта
-    [SerializeField] private GameObject _finishBanner; // Панель с баннером
-    [SerializeField] private Button _restartButton; // Кнопка перезапуска
-    [SerializeField] private Canvas _controlCanvas; // Канвас с кнопками управления
+    [SerializeField] private float _force;        // РЎРёР»Р° С‚СЏРіРё РґР»СЏ РґРІРёР¶РµРЅРёСЏ РІРїРµСЂРµРґ Рё РЅР°Р·Р°Рґ
+    [SerializeField] private float _maxSteerAngle; // РњР°РєСЃРёРјР°Р»СЊРЅС‹Р№ СѓРіРѕР» РїРѕРІРѕСЂРѕС‚Р° РєРѕР»С‘СЃ
+    [SerializeField] private float _accelerationSpeed = 100f; // РЎРєРѕСЂРѕСЃС‚СЊ СѓСЃРєРѕСЂРµРЅРёСЏ РјР°С€РёРЅС‹
+    [SerializeField] private float _decelerationSpeed = 200f; // РЎРєРѕСЂРѕСЃС‚СЊ С‚РѕСЂРјРѕР¶РµРЅРёСЏ
+    [SerializeField] private float _brakeForce = 5000f; // РЎРёР»Р° С‚РѕСЂРјРѕР¶РµРЅРёСЏ
+    [SerializeField] private float _initialBrakeForce = 20000000f; // РЎРёР»Р° С‚РѕСЂРјРѕР¶РµРЅРёСЏ РїСЂРё РІРѕР·СЂРѕР¶РґРµРЅРёРё
+    [SerializeField] private Material[] playersMaterials;
+    [SerializeField] private MeshRenderer meshRenderer;
 
-    private bool _isAccelerating = false;  // Флаг для движения вперёд
-    private bool _isReversing = false;     // Флаг для движения назад
-    private bool _isSteeringRight = false; // Флаг для поворота вправо
-    private bool _isSteeringLeft = false;  // Флаг для поворота влево
+    public bool _isAccelerating = false;  // Р¤Р»Р°Рі РґР»СЏ РґРІРёР¶РµРЅРёСЏ РІРїРµСЂС‘Рґ
+    public bool _isReversing = false;     // Р¤Р»Р°Рі РґР»СЏ РґРІРёР¶РµРЅРёСЏ РЅР°Р·Р°Рґ
+    public bool _isSteeringRight = false; // Р¤Р»Р°Рі РґР»СЏ РїРѕРІРѕСЂРѕС‚Р° РІРїСЂР°РІРѕ
+    public bool _isSteeringLeft = false;  // Р¤Р»Р°Рі РґР»СЏ РїРѕРІРѕСЂРѕС‚Р° РІР»РµРІРѕ
 
-    private float _currentForce = 0f; // Текущая сила тяги
+    private float _currentForce = 0f; // РўРµРєСѓС‰Р°СЏ СЃРёР»Р° С‚СЏРіРё
     private float _stuckTime = 0f;
     private float _maxStuckTime = 4f;
 
-    // Методы для кнопок движения вперёд и назад
-    public void OnAcceleratePressed() { _isAccelerating = true; }
-    public void OnAccelerateReleased() { _isAccelerating = false; }
-    public void OnReversePressed() { _isReversing = true; }
-    public void OnReverseReleased() { _isReversing = false; }
-
-    // Методы для кнопок поворота вправо и влево
-    public void OnRightPressed() { _isSteeringRight = true; }
-    public void OnRightReleased() { _isSteeringRight = false; }
-    public void OnLeftPressed() { _isSteeringLeft = true; }
-    public void OnLeftReleased() { _isSteeringLeft = false; }
+    private int playerIndex = -1;
 
     private void Start()
     {
-        ResetToStart();
-        _finishBanner.SetActive(false); // Скрываем баннер в начале
-        _restartButton.onClick.AddListener(RestartGame); // Подключаем кнопку к методу
+        var array = GameObject.FindGameObjectsWithTag("Player"); 
+        playerIndex = array.Count() - 1;
+        meshRenderer.sharedMaterial = playersMaterials[playerIndex];
+        if (isOwned)
+        {
+            ResetToStart();
+            Camera.main.GetComponent<CustomCamera>()._car = transform;
+            NetMan.instance.OnRestartGame += ResetToStart;
+            NetMan.instance.player = this;
+        }
     }
 
     private void FixedUpdate()
     {
-        if (_isAccelerating)
+        if (isOwned)
         {
-            _currentForce = Mathf.Clamp(_currentForce + _accelerationSpeed * Time.deltaTime, 0, _force);
-            SetBrakeTorque(0f);
-        }
-        else if (_isReversing)
-        {
-            _currentForce = Mathf.Clamp(_currentForce - _accelerationSpeed * Time.deltaTime, -_force, 0);
-            SetBrakeTorque(0f);
-        }
-        else
-        {
-            _currentForce = 0f;
-            SetBrakeTorque(_brakeForce); // Применяем торможение при отсутствии управления
-        }
+            if (_isAccelerating)
+            {
+                _currentForce = Mathf.Clamp(_currentForce + _accelerationSpeed * Time.deltaTime, 0, _force);
+                SetBrakeTorque(0f);
+            }
+            else if (_isReversing)
+            {
+                _currentForce = Mathf.Clamp(_currentForce - _accelerationSpeed * Time.deltaTime, -_force, 0);
+                SetBrakeTorque(0f);
+            }
+            else
+            {
+                _currentForce = 0f;
+                SetBrakeTorque(_brakeForce); // РџСЂРёРјРµРЅСЏРµРј С‚РѕСЂРјРѕР¶РµРЅРёРµ РїСЂРё РѕС‚СЃСѓС‚СЃС‚РІРёРё СѓРїСЂР°РІР»РµРЅРёСЏ
+            }
 
-        // Устанавливаем моторный крутящий момент на все колёса
-        _colliderFL.motorTorque = _currentForce;
-        _colliderFR.motorTorque = _currentForce;
-        _colliderBL.motorTorque = _currentForce;
-        _colliderBR.motorTorque = _currentForce;
+            // РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј РјРѕС‚РѕСЂРЅС‹Р№ РєСЂСѓС‚СЏС‰РёР№ РјРѕРјРµРЅС‚ РЅР° РІСЃРµ РєРѕР»С‘СЃР°
+            _colliderFL.motorTorque = _currentForce;
+            _colliderFR.motorTorque = _currentForce;
+            _colliderBL.motorTorque = _currentForce;
+            _colliderBR.motorTorque = _currentForce;
 
-        // Поворот вправо и влево
-        if (_isSteeringRight)
-        {
-            _colliderFL.steerAngle = _maxSteerAngle;
-            _colliderFR.steerAngle = _maxSteerAngle;
-        }
-        else if (_isSteeringLeft)
-        {
-            _colliderFL.steerAngle = -_maxSteerAngle;
-            _colliderFR.steerAngle = -_maxSteerAngle;
-        }
-        else
-        {
-            _colliderFL.steerAngle = 0f;
-            _colliderFR.steerAngle = 0f;
-        }
+            // РџРѕРІРѕСЂРѕС‚ РІРїСЂР°РІРѕ Рё РІР»РµРІРѕ
+            if (_isSteeringRight)
+            {
+                _colliderFL.steerAngle = _maxSteerAngle;
+                _colliderFR.steerAngle = _maxSteerAngle;
+            }
+            else if (_isSteeringLeft)
+            {
+                _colliderFL.steerAngle = -_maxSteerAngle;
+                _colliderFR.steerAngle = -_maxSteerAngle;
+            }
+            else
+            {
+                _colliderFL.steerAngle = 0f;
+                _colliderFR.steerAngle = 0f;
+            }
 
-        CheckForStuck();
+            CheckForStuck();
+        }
     }
 
     private void SetBrakeTorque(float brakeTorque)
@@ -102,35 +102,35 @@ public class CarController : MonoBehaviour
 
     private void ResetToStart()
     {
-        transform.position = _startPoint.position;
-        transform.rotation = _startPoint.rotation;
+        transform.position = NetMan.instance.StartPoints[playerIndex].position;
+        transform.rotation = NetMan.instance.StartPoints[playerIndex].rotation;
 
-        // Сбрасываем скорость и силы машины
+        // РЎР±СЂР°СЃС‹РІР°РµРј СЃРєРѕСЂРѕСЃС‚СЊ Рё СЃРёР»С‹ РјР°С€РёРЅС‹
         Rigidbody rb = GetComponent<Rigidbody>();
         if (rb != null)
         {
             rb.velocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
-            rb.Sleep(); // Принудительно останавливаем физику
+            rb.Sleep(); // РџСЂРёРЅСѓРґРёС‚РµР»СЊРЅРѕ РѕСЃС‚Р°РЅР°РІР»РёРІР°РµРј С„РёР·РёРєСѓ
         }
 
-        // Сбрасываем параметры управления
+        // РЎР±СЂР°СЃС‹РІР°РµРј РїР°СЂР°РјРµС‚СЂС‹ СѓРїСЂР°РІР»РµРЅРёСЏ
         _currentForce = 0f;
         _isAccelerating = false;
         _isReversing = false;
         _isSteeringRight = false;
         _isSteeringLeft = false;
 
-        // Сбрасываем моторный крутящий момент, торможение и угол поворота колёс
+        // РЎР±СЂР°СЃС‹РІР°РµРј РјРѕС‚РѕСЂРЅС‹Р№ РєСЂСѓС‚СЏС‰РёР№ РјРѕРјРµРЅС‚, С‚РѕСЂРјРѕР¶РµРЅРёРµ Рё СѓРіРѕР» РїРѕРІРѕСЂРѕС‚Р° РєРѕР»С‘СЃ
         _colliderFL.motorTorque = 0f;
         _colliderFR.motorTorque = 0f;
         _colliderBL.motorTorque = 0f;
         _colliderBR.motorTorque = 0f;
-        SetBrakeTorque(_initialBrakeForce); // Применяем очень сильное торможение при возрождении
+        SetBrakeTorque(_initialBrakeForce); // РџСЂРёРјРµРЅСЏРµРј РѕС‡РµРЅСЊ СЃРёР»СЊРЅРѕРµ С‚РѕСЂРјРѕР¶РµРЅРёРµ РїСЂРё РІРѕР·СЂРѕР¶РґРµРЅРёРё
         _colliderFL.steerAngle = 0f;
         _colliderFR.steerAngle = 0f;
 
-        // Через небольшую задержку снимаем начальное сильное торможение
+        // Р§РµСЂРµР· РЅРµР±РѕР»СЊС€СѓСЋ Р·Р°РґРµСЂР¶РєСѓ СЃРЅРёРјР°РµРј РЅР°С‡Р°Р»СЊРЅРѕРµ СЃРёР»СЊРЅРѕРµ С‚РѕСЂРјРѕР¶РµРЅРёРµ
         StartCoroutine(RemoveInitialBrakeForce());
     }
 
@@ -142,28 +142,19 @@ public class CarController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("LoseZone"))
+        if (isOwned)
         {
-            ResetToStart();
-        }
-        else if (other.CompareTag("Finish")) // Проверяем, пересекли ли финиш
-        {
-            ShowFinishBanner(); // Показываем баннер победы
+            if (other.CompareTag("LoseZone"))
+            {
+                ResetToStart();
+            }
+            else if (other.CompareTag("Finish")) // РџСЂРѕРІРµСЂСЏРµРј, РїРµСЂРµСЃРµРєР»Рё Р»Рё С„РёРЅРёС€
+            {
+                NetMan.instance.ShowFinishBanner(); // РџРѕРєР°Р·С‹РІР°РµРј Р±Р°РЅРЅРµСЂ РїРѕР±РµРґС‹
+            }
         }
     }
 
-    private void ShowFinishBanner()
-    {
-        _finishBanner.SetActive(true); // Показываем баннер
-        _controlCanvas.enabled = false; // Скрываем канвас с кнопками управления
-    }
-
-    private void RestartGame()
-    {
-        _finishBanner.SetActive(false); // Скрываем баннер
-        _controlCanvas.enabled = true; // Показываем канвас с управлением
-        ResetToStart(); // Перемещаем машину на старт
-    }
 
     private void CheckForStuck()
     {

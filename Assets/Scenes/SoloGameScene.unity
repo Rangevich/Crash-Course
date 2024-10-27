@@ -1298,6 +1298,136 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 567872094}
   m_CullTransparentMesh: 1
+--- !u!1 &652604055
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 652604056}
+  - component: {fileID: 652604057}
+  - component: {fileID: 652604059}
+  - component: {fileID: 652604060}
+  m_Layer: 0
+  m_Name: NetMan
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &652604056
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 652604055}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 983593313}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &652604057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 652604055}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38dfc9987ae1b67498367c4577ac53b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dontDestroyOnLoad: 1
+  runInBackground: 1
+  headlessStartMode: 0
+  editorAutoStart: 0
+  sendRate: 60
+  offlineScene: 
+  onlineScene: 
+  offlineSceneLoadDelay: 0
+  transport: {fileID: 0}
+  networkAddress: localhost
+  maxConnections: 100
+  disconnectInactiveConnections: 0
+  disconnectInactiveTimeout: 60
+  authenticator: {fileID: 0}
+  playerPrefab: {fileID: 3294564219125457607, guid: 8a8f57edf3523624eb9f886833e8e97a,
+    type: 3}
+  autoCreatePlayer: 1
+  playerSpawnMethod: 0
+  spawnPrefabs: []
+  exceptionsDisconnect: 1
+  snapshotSettings:
+    bufferTimeMultiplier: 2
+    bufferLimit: 32
+    catchupNegativeThreshold: -1
+    catchupPositiveThreshold: 1
+    catchupSpeed: 0.019999999552965164
+    slowdownSpeed: 0.03999999910593033
+    driftEmaDuration: 1
+    dynamicAdjustment: 1
+    dynamicAdjustmentTolerance: 1
+    deliveryTimeEmaDuration: 2
+  evaluationMethod: 0
+  evaluationInterval: 3
+  timeInterpolationGui: 0
+  StartPoints:
+  - {fileID: 1779705501}
+  - {fileID: 2124424121}
+  _finishBanner: {fileID: 1132841674}
+  _restartButton: {fileID: 2004807153}
+  _controlCanvas: {fileID: 1564617302}
+  player: {fileID: 0}
+--- !u!114 &652604059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 652604055}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6442dc8070ceb41f094e44de0bf87274, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  offsetX: 0
+  offsetY: 0
+--- !u!114 &652604060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 652604055}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b0fecffa3f624585964b0d0eb21b18e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  port: 7777
+  DualMode: 1
+  NoDelay: 1
+  Interval: 10
+  Timeout: 10000
+  RecvBufferSize: 7361536
+  SendBufferSize: 7361536
+  FastResend: 2
+  ReceiveWindowSize: 4096
+  SendWindowSize: 4096
+  MaxRetransmit: 40
+  MaximizeSocketBuffers: 1
+  ReliableMaxMessageSize: 297433
+  UnreliableMaxMessageSize: 1194
+  debugLog: 0
+  statisticsGUI: 0
+  statisticsLog: 0
 --- !u!1001 &658494822
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1432,8 +1562,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1052531535}
-          m_TargetAssemblyTypeName: CarController, Assembly-CSharp
+        - m_Target: {fileID: 652604057}
+          m_TargetAssemblyTypeName: NetMan, Assembly-CSharp
           m_MethodName: OnRightPressed
           m_Mode: 1
           m_Arguments:
@@ -1448,8 +1578,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1052531535}
-          m_TargetAssemblyTypeName: CarController, Assembly-CSharp
+        - m_Target: {fileID: 652604057}
+          m_TargetAssemblyTypeName: NetMan, Assembly-CSharp
           m_MethodName: OnRightReleased
           m_Mode: 1
           m_Arguments:
@@ -2025,12 +2155,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 783844645}
   m_CullTransparentMesh: 1
---- !u!146 &792756892 stripped
-WheelCollider:
-  m_CorrespondingSourceObject: {fileID: 1071991078959207046, guid: 8a8f57edf3523624eb9f886833e8e97a,
-    type: 3}
-  m_PrefabInstance: {fileID: 1998453924}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &821050655 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100000, guid: ab2e556b62273434dad486c1e0a4ebf9,
@@ -2193,18 +2317,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 863508802}
   m_CullTransparentMesh: 1
---- !u!146 &882773524 stripped
-WheelCollider:
-  m_CorrespondingSourceObject: {fileID: 4810446887963501108, guid: 8a8f57edf3523624eb9f886833e8e97a,
-    type: 3}
-  m_PrefabInstance: {fileID: 1998453924}
-  m_PrefabAsset: {fileID: 0}
---- !u!146 &933278476 stripped
-WheelCollider:
-  m_CorrespondingSourceObject: {fileID: 3164543666836587937, guid: 8a8f57edf3523624eb9f886833e8e97a,
-    type: 3}
-  m_PrefabInstance: {fileID: 1998453924}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &947370463
 GameObject:
   m_ObjectHideFlags: 0
@@ -2444,48 +2556,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d3f1188298e4d641965bafeeae35fc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _car: {fileID: 1052531534}
+  _car: {fileID: 0}
   _followDistance: 6
   _cameraHeight: 3.5
   _followSpeed: 10
---- !u!1 &1052531532 stripped
+--- !u!1 &983593312
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 3294564219125457607, guid: 8a8f57edf3523624eb9f886833e8e97a,
-    type: 3}
-  m_PrefabInstance: {fileID: 1998453924}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1052531534 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2806714669947893885, guid: 8a8f57edf3523624eb9f886833e8e97a,
-    type: 3}
-  m_PrefabInstance: {fileID: 1998453924}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1052531535
-MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1052531532}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f6077913387847499c8306f74836df4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _colliderFL: {fileID: 1747211768}
-  _colliderFR: {fileID: 882773524}
-  _colliderBL: {fileID: 933278476}
-  _colliderBR: {fileID: 792756892}
-  _force: 100000
-  _maxSteerAngle: 30
-  _accelerationSpeed: 10000
-  _decelerationSpeed: 10000
-  _brakeForce: 2500
-  _initialBrakeForce: 20000
-  _startPoint: {fileID: 1779705501}
-  _finishBanner: {fileID: 1132841674}
-  _restartButton: {fileID: 2004807153}
-  _controlCanvas: {fileID: 1564617302}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 983593313}
+  m_Layer: 0
+  m_Name: Network
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &983593313
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 983593312}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 652604056}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1054737994
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3805,74 +3911,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 821050659}
   m_SourcePrefab: {fileID: 100100000, guid: ab2e556b62273434dad486c1e0a4ebf9, type: 3}
---- !u!1001 &1442906581
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 6948587442945639655, guid: e9be6b9d71ce20345b55b654f6eca5d9,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 12.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6948587442945639655, guid: e9be6b9d71ce20345b55b654f6eca5d9,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.74
-      objectReference: {fileID: 0}
-    - target: {fileID: 6948587442945639655, guid: e9be6b9d71ce20345b55b654f6eca5d9,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -3.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6948587442945639655, guid: e9be6b9d71ce20345b55b654f6eca5d9,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6948587442945639655, guid: e9be6b9d71ce20345b55b654f6eca5d9,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6948587442945639655, guid: e9be6b9d71ce20345b55b654f6eca5d9,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6948587442945639655, guid: e9be6b9d71ce20345b55b654f6eca5d9,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6948587442945639655, guid: e9be6b9d71ce20345b55b654f6eca5d9,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6948587442945639655, guid: e9be6b9d71ce20345b55b654f6eca5d9,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6948587442945639655, guid: e9be6b9d71ce20345b55b654f6eca5d9,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7720726507797323357, guid: e9be6b9d71ce20345b55b654f6eca5d9,
-        type: 3}
-      propertyPath: m_Name
-      value: Free Racing Car Blue Variant
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: e9be6b9d71ce20345b55b654f6eca5d9, type: 3}
 --- !u!1001 &1448127312
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4174,8 +4212,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1052531535}
-          m_TargetAssemblyTypeName: CarController, Assembly-CSharp
+        - m_Target: {fileID: 652604057}
+          m_TargetAssemblyTypeName: NetMan, Assembly-CSharp
           m_MethodName: OnLeftPressed
           m_Mode: 1
           m_Arguments:
@@ -4190,8 +4228,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1052531535}
-          m_TargetAssemblyTypeName: CarController, Assembly-CSharp
+        - m_Target: {fileID: 652604057}
+          m_TargetAssemblyTypeName: NetMan, Assembly-CSharp
           m_MethodName: OnLeftReleased
           m_Mode: 1
           m_Arguments:
@@ -4768,12 +4806,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de4e8ae22411dba4f971edf49f8738f2, type: 3}
---- !u!146 &1747211768 stripped
-WheelCollider:
-  m_CorrespondingSourceObject: {fileID: 2737710317085372627, guid: 8a8f57edf3523624eb9f886833e8e97a,
-    type: 3}
-  m_PrefabInstance: {fileID: 1998453924}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1776252337
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4974,8 +5006,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1052531535}
-          m_TargetAssemblyTypeName: CarController, Assembly-CSharp
+        - m_Target: {fileID: 652604057}
+          m_TargetAssemblyTypeName: NetMan, Assembly-CSharp
           m_MethodName: OnReversePressed
           m_Mode: 1
           m_Arguments:
@@ -4990,8 +5022,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1052531535}
-          m_TargetAssemblyTypeName: CarController, Assembly-CSharp
+        - m_Target: {fileID: 652604057}
+          m_TargetAssemblyTypeName: NetMan, Assembly-CSharp
           m_MethodName: OnReverseReleased
           m_Mode: 1
           m_Arguments:
@@ -5548,88 +5580,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &1998453924
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1778053941187958188, guid: 8a8f57edf3523624eb9f886833e8e97a,
-        type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2806714669947893885, guid: 8a8f57edf3523624eb9f886833e8e97a,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -2.74
-      objectReference: {fileID: 0}
-    - target: {fileID: 2806714669947893885, guid: 8a8f57edf3523624eb9f886833e8e97a,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.99
-      objectReference: {fileID: 0}
-    - target: {fileID: 2806714669947893885, guid: 8a8f57edf3523624eb9f886833e8e97a,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -44.64
-      objectReference: {fileID: 0}
-    - target: {fileID: 2806714669947893885, guid: 8a8f57edf3523624eb9f886833e8e97a,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.99985206
-      objectReference: {fileID: 0}
-    - target: {fileID: 2806714669947893885, guid: 8a8f57edf3523624eb9f886833e8e97a,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2806714669947893885, guid: 8a8f57edf3523624eb9f886833e8e97a,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0.017201882
-      objectReference: {fileID: 0}
-    - target: {fileID: 2806714669947893885, guid: 8a8f57edf3523624eb9f886833e8e97a,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2806714669947893885, guid: 8a8f57edf3523624eb9f886833e8e97a,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2806714669947893885, guid: 8a8f57edf3523624eb9f886833e8e97a,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: -1.971
-      objectReference: {fileID: 0}
-    - target: {fileID: 2806714669947893885, guid: 8a8f57edf3523624eb9f886833e8e97a,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3294564219125457607, guid: 8a8f57edf3523624eb9f886833e8e97a,
-        type: 3}
-      propertyPath: m_Name
-      value: Free Racing Car Red Variant
-      objectReference: {fileID: 0}
-    - target: {fileID: 7514724142118017493, guid: 8a8f57edf3523624eb9f886833e8e97a,
-        type: 3}
-      propertyPath: m_Mass
-      value: 1000
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3294564219125457607, guid: 8a8f57edf3523624eb9f886833e8e97a,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1052531535}
-  m_SourcePrefab: {fileID: 100100000, guid: 8a8f57edf3523624eb9f886833e8e97a, type: 3}
 --- !u!1 &2004807151
 GameObject:
   m_ObjectHideFlags: 0
@@ -6228,6 +6178,12 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: ab2e556b62273434dad486c1e0a4ebf9, type: 3}
+--- !u!4 &2124424121 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400000, guid: ab2e556b62273434dad486c1e0a4ebf9,
+    type: 3}
+  m_PrefabInstance: {fileID: 16614140}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2133114316
 GameObject:
   m_ObjectHideFlags: 0
@@ -6285,8 +6241,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1052531535}
-          m_TargetAssemblyTypeName: CarController, Assembly-CSharp
+        - m_Target: {fileID: 652604057}
+          m_TargetAssemblyTypeName: NetMan, Assembly-CSharp
           m_MethodName: OnAcceleratePressed
           m_Mode: 1
           m_Arguments:
@@ -6301,8 +6257,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1052531535}
-          m_TargetAssemblyTypeName: CarController, Assembly-CSharp
+        - m_Target: {fileID: 652604057}
+          m_TargetAssemblyTypeName: NetMan, Assembly-CSharp
           m_MethodName: OnAccelerateReleased
           m_Mode: 1
           m_Arguments:
@@ -6406,7 +6362,6 @@ SceneRoots:
   - {fileID: 1054737994}
   - {fileID: 229237806}
   - {fileID: 1849959450}
-  - {fileID: 1998453924}
   - {fileID: 88908218}
   - {fileID: 1547260845}
   - {fileID: 1729691128}
@@ -6427,7 +6382,6 @@ SceneRoots:
   - {fileID: 1471323429}
   - {fileID: 1363057534}
   - {fileID: 347999426}
-  - {fileID: 1442906581}
   - {fileID: 1452139867}
   - {fileID: 1800716974}
   - {fileID: 1068107391}
@@ -6438,3 +6392,4 @@ SceneRoots:
   - {fileID: 1254961327}
   - {fileID: 1564617303}
   - {fileID: 1132841678}
+  - {fileID: 983593313}
