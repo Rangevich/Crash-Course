@@ -13,7 +13,6 @@ public class MainMenu : MonoBehaviour
     private void Start()
     {
         _buttonPlay.onClick.AddListener(StartGame);
-        _buttonCompetition.onClick.AddListener(PlaceholderAction);
         _buttonSettings.onClick.AddListener(PlaceholderAction);
         _buttonCreators.onClick.AddListener(PlaceholderAction);
         _buttonQuit.onClick.AddListener(QuitGame);
@@ -24,9 +23,14 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene("SoloGameScene");
     }
 
+    private void StartCompitition()
+    {
+        
+    }
+    
     private void PlaceholderAction()
     {
-        Debug.Log("Действие пока не реализовано");
+        Debug.Log("Р”РµР№СЃС‚РІРёРµ РїРѕРєР° РЅРµ СЂРµР°Р»РёР·РѕРІР°РЅРѕ");
     }
 
     private void QuitGame()

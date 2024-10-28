@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Mirror;
 using UnityEngine;
 using UnityEngine.UI;
@@ -27,9 +28,18 @@ public class NetMan : NetworkManager
     public void OnRightReleased() { player._isSteeringRight = false; }
     public void OnLeftPressed() { player._isSteeringLeft = true; }
     public void OnLeftReleased() { player._isSteeringLeft = false; }
+
+    public override void Awake()
+    {
+        base.Awake();
+        if (instance == null)
+        {
+            instance = this;
+        }
+    }
+
     private void Start()
     {
-        instance = this;
         _finishBanner.SetActive(false); // Скрываем баннер в начале
         _restartButton.onClick.AddListener(RestartGame); // Подключаем кнопку к методу
     }
