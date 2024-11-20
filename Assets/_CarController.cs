@@ -35,7 +35,7 @@ public class CarController : NetworkBehaviour
     {
         var array = GameObject.FindGameObjectsWithTag("Player"); 
         playerIndex = array.Count() - 1;
-        meshRenderer.sharedMaterial = playersMaterials[playerIndex];
+        //meshRenderer.sharedMaterial = playersMaterials[playerIndex];
         if (isOwned)
         {
             ResetToStart();

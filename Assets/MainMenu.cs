@@ -12,7 +12,7 @@ public class MainMenu : MonoBehaviour
 
     private void Start()
     {
-        _buttonPlay.onClick.AddListener(StartGame);
+        //_buttonPlay.onClick.AddListener(StartGame);
         _buttonSettings.onClick.AddListener(PlaceholderAction);
         _buttonCreators.onClick.AddListener(PlaceholderAction);
         _buttonQuit.onClick.AddListener(QuitGame);
